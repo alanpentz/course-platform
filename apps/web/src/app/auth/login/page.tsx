@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { signIn } from '@course-platform/database';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import GoogleSignInButton from '@/components/auth/GoogleSignInButton';
+import GoogleSignInButton from '../../../components/auth/GoogleSignInButton';
 
 export default function LoginPage() {
   const router = useRouter();

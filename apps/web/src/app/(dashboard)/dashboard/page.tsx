@@ -1,8 +1,8 @@
 import { createSupabaseServerClient } from '@course-platform/database/server';
 import { redirect } from 'next/navigation';
-import { DashboardStats } from '@/components/dashboard/dashboard-stats';
-import { RecentCourses } from '@/components/dashboard/recent-courses';
-import { UpcomingLessons } from '@/components/dashboard/upcoming-lessons';
+import { DashboardStats } from '../../../components/dashboard/dashboard-stats';
+import { RecentCourses } from '../../../components/dashboard/recent-courses';
+import { UpcomingLessons } from '../../../components/dashboard/upcoming-lessons';
 
 export default async function DashboardPage() {
   const supabase = createSupabaseServerClient();

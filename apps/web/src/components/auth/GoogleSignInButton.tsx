@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { signInWithGoogle } from '@course-platform/database';
 
-export function GoogleSignInButton() {
+export default function GoogleSignInButton() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -1,7 +1,7 @@
 import { fetchQuery, coursesQuery, categoriesQuery } from '@course-platform/sanity-client';
-import { CourseGrid } from '@/components/courses/course-grid';
-import { CategoryFilter } from '@/components/courses/category-filter';
-import { SearchBar } from '@/components/courses/search-bar';
+import { CourseGrid } from '../../../../components/courses/course-grid';
+import { CategoryFilter } from '../../../../components/courses/category-filter';
+import { SearchBar } from '../../../../components/courses/search-bar';
 
 export default async function BrowseCoursesPage({
   searchParams,
