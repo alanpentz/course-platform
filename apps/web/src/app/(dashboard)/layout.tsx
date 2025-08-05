@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createSupabaseServerClient } from '@course-platform/database/server';
-import { DashboardNav } from '@/components/layout/dashboard-nav';
-import { UserMenu } from '@/components/layout/user-menu';
+import { DashboardNav } from '../../components/layout/dashboard-nav';
+import { UserMenu } from '../../components/layout/user-menu';
 
 export default async function DashboardLayout({
   children,
