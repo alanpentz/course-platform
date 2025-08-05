@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { createSupabaseClient } from '@course-platform/database/client';
+import { createSupabaseBrowserClient } from '@course-platform/database/client';
 
 interface LessonNavigationProps {
   lessons: any[];
@@ -18,7 +18,7 @@ export default function LessonNavigation({
   courseSlug,
 }: LessonNavigationProps) {
   const [progress, setProgress] = useState<Record<string, any>>({});
-  const supabase = createSupabaseClient();
+  const supabase = createSupabaseBrowserClient();
 
   useEffect(() => {
     // Fetch progress for all lessons
