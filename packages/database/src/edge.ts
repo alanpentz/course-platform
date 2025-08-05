@@ -1,18 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@course-platform/types';
-import { getSupabaseUrl, getSupabaseAnonKey } from './shared';
+import type { Database } from '../../types/src/database';
 
-// Edge-compatible Supabase client
-export const createSupabaseEdgeClient = () => {
+export function createSupabaseEdgeClient() {
+  // For edge runtime, we use the standard createClient
   return createClient<Database>(
-    getSupabaseUrl(),
-    getSupabaseAnonKey(),
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      global: {
-        headers: {
-          'X-Client-Info': 'supabase-js-edge',
-        },
+      auth: {
+        persistSession: false,
       },
     }
   );
-};
+}

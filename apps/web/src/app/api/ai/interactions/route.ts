@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Save the interaction to database
-    const { data, error } = await supabase.from('ai_interactions').insert({
+    const { data, error: insertError } = await supabase.from('ai_interactions').insert({
       user_id: user.id,
       lesson_id: lessonId || null,
       course_id: courseId || null,
@@ -39,8 +39,8 @@ export async function POST(req: NextRequest) {
       query: query,
     }).select().single();
 
-    if (error) {
-      throw error;
+    if (insertError) {
+      throw insertError;
     }
 
     return NextResponse.json({ success: true, data });

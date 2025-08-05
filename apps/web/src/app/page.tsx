@@ -1,4 +1,4 @@
-import { DatabaseStatus } from '@/components/database-status';
+import { DatabaseStatus } from '../components/database-status';
 import Link from 'next/link';
 
 export default function Home() {

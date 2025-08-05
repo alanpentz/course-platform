@@ -1,12 +1,7 @@
-import { OpenAIStream, StreamingTextResponse } from 'ai';
-import { OpenAI } from 'openai';
+import { streamText } from 'ai';
+import { openai } from '@ai-sdk/openai';
 import { createSupabaseEdgeClient } from '@course-platform/database/edge';
 import { NextRequest } from 'next/server';
-
-// Create an OpenAI API client (that's edge friendly)
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 // IMPORTANT! Set the runtime to edge
 export const runtime = 'edge';
@@ -45,39 +40,27 @@ Guidelines:
 - Encourage the student when they're struggling
 - If asked about unrelated topics, gently redirect to the lesson material`;
 
-    // Create a chat completion using OpenAI
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      stream: true,
+    // Save the interaction start to database
+    if (lessonId || courseId) {
+      await supabase.from('ai_interactions').insert({
+        user_id: user.id,
+        lesson_id: lessonId || null,
+        course_id: courseId || null,
+        interaction_type: 'chat',
+        query: messages[messages.length - 1]?.content || '',
+      });
+    }
+
+    // Create a streaming response
+    const result = await streamText({
+      model: openai('gpt-3.5-turbo'),
       temperature: 0.7,
-      max_tokens: 500,
-      messages: [
-        {
-          role: 'system',
-          content: systemPrompt,
-        },
-        ...messages,
-      ],
+      system: systemPrompt,
+      messages,
     });
 
-    // Convert the response into a friendly text-stream
-    const stream = OpenAIStream(response, {
-      onStart: async () => {
-        // Save the interaction start to database
-        if (lessonId || courseId) {
-          await supabase.from('ai_interactions').insert({
-            user_id: user.id,
-            lesson_id: lessonId || null,
-            course_id: courseId || null,
-            interaction_type: 'chat',
-            query: messages[messages.length - 1]?.content || '',
-          });
-        }
-      },
-    });
-
-    // Respond with the stream
-    return new StreamingTextResponse(stream);
+    // Return the streaming response
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error('AI Chat Error:', error);
     return new Response('Internal Server Error', { status: 500 });

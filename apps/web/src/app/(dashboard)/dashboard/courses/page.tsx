@@ -61,7 +61,7 @@ export default async function MyCoursesPage() {
 
       {coursesWithDetails.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow-sm border">
-          <p className="text-gray-500 mb-4">You haven't enrolled in any courses yet.</p>
+          <p className="text-gray-500 mb-4">You haven&apos;t enrolled in any courses yet.</p>
           <Link
             href="/dashboard/browse"
             className="inline-block px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"

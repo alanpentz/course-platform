@@ -1,6 +1,6 @@
 import { createSupabaseServerClient } from '@course-platform/database/server';
 import { redirect } from 'next/navigation';
-import { ProfileForm } from '../../../components/profile/profile-form';
+import { ProfileForm } from '../../../../components/profile/profile-form';
 
 export default async function ProfilePage() {
   const supabase = createSupabaseServerClient();

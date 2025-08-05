@@ -50,8 +50,8 @@ export default function LessonNavigation({
           table: 'lesson_progress',
           filter: `enrollment_id=eq.${enrollmentId}`,
         },
-        (payload) => {
-          if (payload.new) {
+        (payload: any) => {
+          if (payload.new && 'lesson_id' in payload.new) {
             setProgress(prev => ({
               ...prev,
               [payload.new.lesson_id]: payload.new,

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signUp } from '@course-platform/database';
+import { createSupabaseBrowserClient } from '@course-platform/database/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import GoogleSignInButton from '../../../components/auth/GoogleSignInButton';
@@ -14,6 +14,7 @@ export default function SignupPage() {
   const [role, setRole] = useState<'student' | 'instructor'>('student');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const supabase = createSupabaseBrowserClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,10 +22,18 @@ export default function SignupPage() {
     setError(null);
 
     try {
-      await signUp(email, password, {
-        full_name: fullName,
-        role: role
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            role: role
+          }
+        }
       });
+      
+      if (signUpError) throw signUpError;
       
       // Show success message
       alert('Account created! Please check your email to verify your account.');

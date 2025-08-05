@@ -60,8 +60,8 @@ export default async function CoursePage({ params }: CoursePageProps) {
     .maybeSingle();
 
   // Get lessons from Supabase if enrolled
-  let lessons = [];
-  let lessonProgress = [];
+  let lessons: any[] = [];
+  let lessonProgress: any[] = [];
   
   if (enrollment) {
     const { data: dbLessons } = await supabase
@@ -183,7 +183,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <span>You're enrolled in this course</span>
+                  <span>You&apos;re enrolled in this course</span>
                 </div>
                 
                 <div>
@@ -237,7 +237,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
           {/* Learning Objectives */}
           {sanityData.learningObjectives && sanityData.learningObjectives.length > 0 && (
             <section className="bg-white rounded-lg shadow-sm border p-6">
-              <h2 className="text-xl font-semibold mb-4">What You'll Learn</h2>
+              <h2 className="text-xl font-semibold mb-4">What You&apos;ll Learn</h2>
               <ul className="space-y-2">
                 {sanityData.learningObjectives.map((objective: string, index: number) => (
                   <li key={index} className="flex items-start gap-3">

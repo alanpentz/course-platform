@@ -23,7 +23,7 @@
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.1",
     "prettier": "^3.6.2",
-    "turbo": "^1.13.4",
+    "turbo": "^2.5.5",
     "typescript": "^5.9.2"
   },
   "packageManager": "npm@10.2.4",
@@ -37,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/yourusername/course-platform/issues"
   },
-  "homepage": "https://github.com/yourusername/course-platform#readme"
+  "homepage": "https://github.com/yourusername/course-platform#readme",
+  "dependencies": {
+    "@ai-sdk/openai": "^2.0.3"
+  }
 }

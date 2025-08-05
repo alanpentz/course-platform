@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { User } from '@supabase/supabase-js';
 import { Profile } from '@course-platform/types';
-import { createSupabaseClient } from '@course-platform/database/client';
+import { createSupabaseBrowserClient } from '@course-platform/database/client';
 import { useRouter } from 'next/navigation';
 
 interface ProfileFormProps {
@@ -16,7 +16,7 @@ export function ProfileForm({ user, profile }: ProfileFormProps) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const router = useRouter();
-  const supabase = createSupabaseClient();
+  const supabase = createSupabaseBrowserClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

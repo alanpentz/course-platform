@@ -7,7 +7,9 @@
   "exports": {
     ".": "./index.ts",
     "./client": "./client.ts",
-    "./server": "./src/server.ts"
+    "./server": "./src/server.ts",
+    "./edge": "./src/edge.ts",
+    "./middleware": "./src/middleware.ts"
   },
   "scripts": {
     "db:generate": "prisma generate",

@@ -1,8 +1,7 @@
 {
   "root": true,
   "extends": [
-    "@next/eslint-config-next",
-    "turbo"
+    "next"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

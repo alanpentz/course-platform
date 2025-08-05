@@ -19,14 +19,14 @@ export default async function BrowseCoursesPage({
 
   if (searchParams.category) {
     filteredCourses = filteredCourses.filter(
-      course => course.category?.slug === searchParams.category
+      (course: any) => course.category?.slug === searchParams.category
     );
   }
 
   if (searchParams.search) {
     const searchTerm = searchParams.search.toLowerCase();
     filteredCourses = filteredCourses.filter(
-      course =>
+      (course: any) =>
         course.title.toLowerCase().includes(searchTerm) ||
         course.description.toLowerCase().includes(searchTerm)
     );

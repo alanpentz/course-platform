@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "./src/index.tsx",
   "types": "./src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx",
+    "./ai": "./src/ai.tsx"
+  },
   "scripts": {
     "type-check": "tsc --noEmit"
   },

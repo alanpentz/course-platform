@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signIn } from '@course-platform/database';
+import { createSupabaseBrowserClient } from '@course-platform/database/client';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import GoogleSignInButton from '../../../components/auth/GoogleSignInButton';
@@ -12,6 +12,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const supabase = createSupabaseBrowserClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +20,13 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      await signIn(email, password);
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      
+      if (error) throw error;
+      
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Failed to sign in');
@@ -95,7 +102,7 @@ export default function LoginPage() {
 
         <div className="text-center">
           <Link href="/auth/signup" className="text-indigo-600 hover:text-indigo-500">
-            Don't have an account? Sign up
+            Don&apos;t have an account? Sign up
           </Link>
         </div>
       </form>

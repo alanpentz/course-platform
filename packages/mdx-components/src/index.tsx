@@ -25,3 +25,14 @@ export const MDXComponents = {
 };
 
 export default MDXComponents;
+
+// MDXRenderer component for rendering MDX content
+export function MDXRenderer({ source, components = {} }: { source: any; components?: any }) {
+  // This is a placeholder - normally would use MDXRemote
+  return (
+    <div className="mdx-content">
+      {/* MDX content would be rendered here */}
+      <p>MDX content rendering placeholder</p>
+    </div>
+  );
+}
