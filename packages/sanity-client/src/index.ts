@@ -17,5 +17,10 @@ export function urlFor(source: any) {
   return builder.image(source);
 }
 
+// Fetch query helper
+export async function fetchQuery<T = any>(query: string, params?: Record<string, any>): Promise<T> {
+  return sanityClient.fetch<T>(query, params || {});
+}
+
 // Export queries
 export * from './queries';
