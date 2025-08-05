@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "app/api/ai/chat/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/ai/explain/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/ai/code-review/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}

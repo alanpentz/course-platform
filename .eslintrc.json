@@ -1,0 +1,14 @@
+{
+  "root": true,
+  "extends": [
+    "@next/eslint-config-next",
+    "turbo"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@next/next/no-html-link-for-pages": "off"
+  }
+}

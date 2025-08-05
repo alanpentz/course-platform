@@ -1,0 +1,41 @@
+{
+  "name": "course-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A comprehensive online course platform built with modern web technologies",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean && rm -rf node_modules apps/*/node_modules packages/*/node_modules",
+    "test": "turbo test",
+    "db:generate": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > packages/types/src/database.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.9",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.57.1",
+    "prettier": "^3.6.2",
+    "turbo": "^1.13.4",
+    "typescript": "^5.9.2"
+  },
+  "packageManager": "npm@10.2.4",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/course-platform.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/course-platform/issues"
+  },
+  "homepage": "https://github.com/yourusername/course-platform#readme"
+}

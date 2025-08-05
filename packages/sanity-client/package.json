@@ -1,0 +1,16 @@
+{
+  "name": "@course-platform/sanity-client",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.15.0",
+    "@sanity/image-url": "^1.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

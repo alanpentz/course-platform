@@ -1,0 +1,113 @@
+# Introduction to JavaScript Functions
+
+Functions are one of the fundamental building blocks in JavaScript. A function is a reusable block of code designed to perform a particular task.
+
+## Basic Function Syntax
+
+Let's start with a simple function declaration:
+
+<CodeBlock language="javascript" title="basic-function.js">
+function greet(name) {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet("Alice")); // Output: Hello, Alice!
+</CodeBlock>
+
+<Note type="info" title="Function Components">
+A function has three main parts:
+- **Name**: The identifier used to call the function
+- **Parameters**: Input values the function accepts
+- **Body**: The code that executes when the function is called
+</Note>
+
+## Interactive Example
+
+Try modifying this function to return a personalized greeting:
+
+<InteractiveExample
+  id="greeting-function"
+  title="Create a Greeting Function"
+  initialCode={`function createGreeting(name, time) {
+  // Your code here
+  // Return a greeting based on the time of day
+  // Morning: "Good morning, [name]!"
+  // Afternoon: "Good afternoon, [name]!"
+  // Evening: "Good evening, [name]!"
+}`}
+  solution={`function createGreeting(name, time) {
+  if (time < 12) {
+    return \`Good morning, \${name}!\`;
+  } else if (time < 18) {
+    return \`Good afternoon, \${name}!\`;
+  } else {
+    return \`Good evening, \${name}!\`;
+  }
+}`}
+  testCases={[
+    { input: ["Alice", 9], expectedOutput: "Good morning, Alice!" },
+    { input: ["Bob", 14], expectedOutput: "Good afternoon, Bob!" },
+    { input: ["Charlie", 20], expectedOutput: "Good evening, Charlie!" }
+  ]}
+/>
+
+## Arrow Functions
+
+ES6 introduced arrow functions, which provide a more concise syntax:
+
+<CodeBlock language="javascript" showLineNumbers>
+// Traditional function
+function add(a, b) {
+  return a + b;
+}
+
+// Arrow function
+const add = (a, b) => a + b;
+
+// With single parameter, parentheses are optional
+const square = x => x * x;
+</CodeBlock>
+
+<AIExplainer concept="arrow functions">
+Arrow functions not only provide shorter syntax but also have different behavior with the `this` keyword compared to regular functions.
+</AIExplainer>
+
+## Quick Check
+
+<Quiz
+  id="function-basics"
+  question="Which of the following is the correct syntax for an arrow function that takes two parameters?"
+  options={[
+    "const sum = a, b => a + b",
+    "const sum = (a, b) => a + b",
+    "const sum = (a, b) -> a + b",
+    "const sum = a + b => a + b"
+  ]}
+  correctAnswer={1}
+  explanation="Arrow functions with multiple parameters require parentheses around the parameter list."
+/>
+
+## Code Review Example
+
+Here's a function that could use some improvement:
+
+<AICodeReview
+  code={`function calculatePrice(price, tax, discount) {
+  var total = price;
+  total = total + (total * tax);
+  total = total - discount;
+  return total;
+}`}
+  language="javascript"
+/>
+
+## Have Questions?
+
+<AIChat
+  title="Ask about Functions"
+  placeholder="Ask me anything about JavaScript functions..."
+/>
+
+<Note type="success">
+Congratulations! You've learned the basics of JavaScript functions. Practice creating your own functions to solidify your understanding.
+</Note>

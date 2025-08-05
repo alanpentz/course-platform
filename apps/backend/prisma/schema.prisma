@@ -1,0 +1,295 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  emailVerified     Boolean   @default(false)
+  passwordHash      String?
+  role              Role      @default(STUDENT)
+  firstName         String?
+  lastName          String?
+  avatar            String?
+  bio               String?
+  stripeCustomerId  String?   @unique
+  
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relations
+  enrollments       Enrollment[]
+  instructorCourses Course[]  @relation("InstructorCourses")
+  progress          Progress[]
+  reviews           Review[]
+  certificates      Certificate[]
+  subscriptions     Subscription[]
+  payments          Payment[]
+  
+  @@index([email])
+  @@index([role])
+}
+
+model Course {
+  id                String        @id @default(cuid())
+  title             String
+  slug              String        @unique
+  description       String
+  shortDescription  String?
+  thumbnail         String?
+  previewVideo      String?
+  price             Float         @default(0)
+  currency          String        @default("USD")
+  status            CourseStatus  @default(DRAFT)
+  level             String?       // Beginner, Intermediate, Advanced
+  duration          Int?          // Total duration in minutes
+  language          String        @default("en")
+  
+  instructorId      String
+  instructor        User          @relation("InstructorCourses", fields: [instructorId], references: [id])
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  publishedAt       DateTime?
+  
+  // Relations
+  modules           Module[]
+  enrollments       Enrollment[]
+  reviews           Review[]
+  certificates      Certificate[]
+  categories        CourseCategory[]
+  
+  @@index([slug])
+  @@index([instructorId])
+  @@index([status])
+}
+
+model Module {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  order       Int
+  courseId    String
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Relations
+  lessons     Lesson[]
+  
+  @@unique([courseId, order])
+  @@index([courseId])
+}
+
+model Lesson {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  content     String?   // Rich text content
+  videoUrl    String?
+  duration    Int?      // Duration in minutes
+  order       Int
+  moduleId    String
+  module      Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  // Relations
+  progress    Progress[]
+  resources   Resource[]
+  
+  @@unique([moduleId, order])
+  @@index([moduleId])
+}
+
+model Resource {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  url         String
+  type        String    // PDF, Video, Link, etc.
+  lessonId    String
+  lesson      Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@index([lessonId])
+}
+
+model Category {
+  id          String           @id @default(cuid())
+  name        String           @unique
+  slug        String           @unique
+  description String?
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  
+  // Relations
+  courses     CourseCategory[]
+  
+  @@index([slug])
+}
+
+model CourseCategory {
+  courseId    String
+  categoryId  String
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  category    Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  @@id([courseId, categoryId])
+  @@index([courseId])
+  @@index([categoryId])
+}
+
+model Enrollment {
+  id              String    @id @default(cuid())
+  userId          String
+  courseId        String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  enrolledAt      DateTime  @default(now())
+  completedAt     DateTime?
+  expiresAt       DateTime?
+  
+  // Relations
+  progress        Progress[]
+  certificate     Certificate?
+  
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+model Progress {
+  id            String      @id @default(cuid())
+  userId        String
+  lessonId      String
+  enrollmentId  String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson        Lesson      @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  enrollment    Enrollment  @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  
+  completed     Boolean     @default(false)
+  completedAt   DateTime?
+  watchTime     Int         @default(0) // in seconds
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+  @@index([enrollmentId])
+}
+
+model Review {
+  id          String    @id @default(cuid())
+  userId      String
+  courseId    String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  rating      Int       // 1-5
+  title       String?
+  comment     String?
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@index([rating])
+}
+
+model Certificate {
+  id            String      @id @default(cuid())
+  userId        String
+  courseId      String
+  enrollmentId  String      @unique
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course        Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrollment    Enrollment  @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  
+  certificateId String      @unique
+  issuedAt      DateTime    @default(now())
+  
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+}
+
+model Subscription {
+  id                 String              @id @default(cuid())
+  userId             String
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  stripeSubscriptionId String            @unique
+  stripePriceId      String
+  status             SubscriptionStatus
+  
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  cancelAt           DateTime?
+  canceledAt         DateTime?
+  
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  stripePaymentId   String        @unique
+  amount            Float
+  currency          String
+  status            PaymentStatus
+  description       String?
+  
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@course-platform/cms",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "start": "sanity start",
+    "deploy": "sanity deploy",
+    "lint": "eslint . --ext .ts,.tsx",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.12.3",
+    "@sanity/icons": "^2.11.0",
+    "@sanity/ui": "^2.0.1",
+    "@sanity/vision": "^3.28.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-is": "^18.2.0",
+    "sanity": "^3.28.0",
+    "styled-components": "^6.1.8"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^3.0.1",
+    "@types/react": "^18.2.48",
+    "@types/styled-components": "^5.1.34",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  }
+}
